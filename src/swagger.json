@@ -1,0 +1,351 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Atlas",
+    "description": "This is the Atlas API.",
+    "version": "1.0.0",
+    "contact": {
+      "email": "rovetta.thiago@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "users",
+      "description": "User management"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create a user.",
+        "description": "Creates a new user.",
+        "requestBody": {
+          "required": true,
+          "description": "Required fields to create a user!",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Thiago Rovetta",
+                  "email": "rovetta.thiago@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User successfully created!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "id": "a32d8169-56ef-4d48-a595ff748116",
+                    "name": "Thiago Rovetta",
+                    "email": "rovetta.thiago@gmail.com",
+                    "admin": false,
+                    "created_at": "2022-03-11T08:38:45.2314",
+                    "updated_at": "2022-03-11T08:38:45.2314"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User email already exists!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User email already exists!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Returns all users.",
+        "description": "<p>Only <code>admin</code> users can access.</p>",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": "a32d8169-56ef-4d48-a595ff748116",
+                      "name": "Thiago Vinicius",
+                      "email": "thiagovini2@hotmail.com",
+                      "admin": false,
+                      "created_at": "2022-03-11T08:38:45.2314",
+                      "updated_at": "2022-03-11T08:38:45.2314"
+                    },
+                    {
+                      "id": "a32d8169-56ef-4d48-a595ff748116",
+                      "name": "Thiago Rovetta",
+                      "email": "rovetta.thiago@gmail.com",
+                      "admin": true,
+                      "created_at": "2022-03-11T08:38:45.2314",
+                      "updated_at": "2022-03-11T08:40:45.2314"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User without necessary permissions or User not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User does not have the necessary permissions!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Returns a specific user.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "description": "User ID",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "id": "a32d8169-56ef-4d48-a595ff748116",
+                    "name": "Thiago Vinicius",
+                    "email": "thiagovini2@hotmail.com",
+                    "admin": false,
+                    "created_at": "2022-03-11T08:38:45.2314",
+                    "updated_at": "2022-03-11T08:38:45.2314"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User not found!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Makes admin a user.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "description": "User ID",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User successfully created!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "id": "a32d8169-56ef-4d48-a595ff748116",
+                    "name": "Thiago Rovetta",
+                    "email": "rovetta.thiago@gmail.com",
+                    "admin": true,
+                    "created_at": "2022-03-11T08:38:45.2314",
+                    "updated_at": "2022-03-11T08:48:45.2314"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User not found!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
